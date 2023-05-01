@@ -35,9 +35,17 @@ function init() {
       btn.className = `key ${item.className}`;
       btn.innerText = item.russian.lower;
       row.append(btn);
-      console.log(item.className);
     });
   });
 }
 
 init();
+
+document.addEventListener('keydown', (event) => {
+  const actBtn = document.querySelector(`.${event.code}`);
+  actBtn.classList.toggle('active');
+});
+document.addEventListener('keyup', (event) => {
+  const actBtn = document.querySelector(`.${event.code}`);
+  actBtn.classList.toggle('active');
+});
