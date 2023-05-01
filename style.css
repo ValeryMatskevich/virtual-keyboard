@@ -114,3 +114,7 @@
 .keyboard .Space {
   width: 330px
 }
+
+.hidden {
+  display: none
+}
