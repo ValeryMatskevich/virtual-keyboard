@@ -70,6 +70,7 @@
 
 .keyboard .key.active {
   background-color: white;
+  animation: pressingBtn 0.2s ease-in-out backwards;
 }
 
 .keyboard .key:active {

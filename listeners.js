@@ -7,11 +7,70 @@ export function addKeyboardListeners() {
   const lower = document.querySelectorAll('.lower');
   const upper = document.querySelectorAll('.upper');
   const capsLock = document.querySelector('.CapsLock');
+  const textarea = document.querySelector('.textarea');
 
   document.addEventListener('keydown', (event) => {
     const actBtn = document.querySelector(`.${event.code}`);
     if (actBtn.classList.contains('active')) actBtn.classList.remove('active');
     else actBtn.classList.add('active');
+    if (event.code === 'ShiftLeft' || event.code === 'AltLeft' || event.code === 'MetaLeft' || event.code === 'AltRight' || event.code === 'ShiftRight' || event.code === 'ControlRight' || event.code === 'ControlLeft') {
+      event.preventDefault();
+      return;
+    }
+    switch (event.code) {
+      case 'CapsLock': {
+        event.preventDefault();
+        if (actBtn.classList.contains('active')) {
+          capsOn.forEach((el) => {
+            el.classList.add('hidden');
+          });
+          lower.forEach((el) => {
+            el.classList.remove('hidden');
+          });
+        } else {
+          capsOn.forEach((el) => {
+            el.classList.remove('hidden');
+          });
+          lower.forEach((el) => {
+            el.classList.add('hidden');
+          });
+        }
+        break;
+      }
+      case 'Backspace': {
+        event.preventDefault();
+        deleteKeyboardBtn('back');
+        break;
+      }
+      case 'Delete': {
+        event.preventDefault();
+        deleteKeyboardBtn('del');
+        break;
+      }
+      case 'Space': {
+        event.preventDefault();
+        textarea.setRangeText(' ', textarea.selectionStart, textarea.selectionEnd, 'end');
+        break;
+      }
+      case 'MetaLeft': {
+        event.preventDefault();
+        break;
+      }
+      case 'Tab': {
+        event.preventDefault();
+        setKeyboardBtn('\t');
+        break;
+      }
+      case 'Enter': {
+        event.preventDefault();
+        setKeyboardBtn('\n');
+        break;
+      }
+      default: {
+        event.preventDefault();
+        textarea.setRangeText(`${actBtn.innerText}`, textarea.selectionStart, textarea.selectionEnd, 'end');
+      }
+    }
   });
 
   document.addEventListener('keyup', (event) => {
@@ -88,7 +147,7 @@ export function addClickListener() {
     const item = event.target.closest('.key');
     if (!item) return;
     const itemClass = item.className.split(' ')[1];
-
+    if (itemClass === 'ShiftLeft' || itemClass === 'AltLeft' || itemClass === 'MetaLeft' || itemClass === 'AltRight' || itemClass === 'ShiftRight' || itemClass === 'ControlRight' || itemClass === 'ControlLeft') return;
     switch (itemClass) {
       case 'Tab': {
         setKeyboardBtn('\t');
@@ -119,10 +178,11 @@ export function addClickListener() {
         break;
       }
       case 'Space': {
-        textarea.setRangeText(' ', 0, 0, 'end');
+        textarea.setRangeText(' ', textarea.selectionStart, textarea.selectionEnd, 'end');
         break;
       }
-      default: textarea.value += event.target.innerText;
+
+      default: textarea.setRangeText(`${event.target.innerText}`, textarea.selectionStart, textarea.selectionEnd, 'end');
     }
   });
 }
