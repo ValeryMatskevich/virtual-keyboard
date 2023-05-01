@@ -251,7 +251,7 @@ const buttons = [
         shiftCaps: 'W',
       },
       russian: {
-        capsOn: 'Й',
+        capsOn: 'Ц',
         lower: 'ц',
         upper: 'Ц',
         shiftCaps: 'Ц',
